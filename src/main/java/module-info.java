@@ -9,7 +9,20 @@ module com.riki.electrical_offers_software {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.sql;
+    requires org.xerial.sqlitejdbc;
+    requires jbcrypt;
 
     opens com.riki.electrical_offers_software to javafx.fxml;
     exports com.riki.electrical_offers_software;
+    exports com.riki.electrical_offers_software.database;
+    opens com.riki.electrical_offers_software.database to javafx.fxml;
+    exports com.riki.electrical_offers_software.users;
+    opens com.riki.electrical_offers_software.users to javafx.fxml;
+    exports com.riki.electrical_offers_software.login;
+    opens com.riki.electrical_offers_software.login to javafx.fxml;
+    exports com.riki.electrical_offers_software.start;
+    opens com.riki.electrical_offers_software.start;
+    exports com.riki.electrical_offers_software.offers to javafx.fxml;
+    opens com.riki.electrical_offers_software.offers;
 }

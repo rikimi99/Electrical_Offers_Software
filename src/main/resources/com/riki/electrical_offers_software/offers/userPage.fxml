@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.riki.electrical_offers_software.offers.UserController">
+   <children>
+      <Label layoutX="14.0" layoutY="30.0" prefHeight="17.0" prefWidth="42.0" text="Όνομα" />
+      <Label layoutX="14.0" layoutY="66.0" prefHeight="17.0" prefWidth="59.0" text="Επώνυμο" />
+      <TextField layoutX="128.0" layoutY="26.0" prefHeight="17.0" prefWidth="160.0" />
+      <TextField layoutX="128.0" layoutY="62.0" prefHeight="17.0" prefWidth="160.0" />
+      <Label layoutX="14.0" layoutY="106.0" prefHeight="17.0" prefWidth="59.0" text="Email" />
+      <TextField layoutX="128.0" layoutY="102.0" prefHeight="17.0" prefWidth="160.0" />
+   </children>
 </AnchorPane>

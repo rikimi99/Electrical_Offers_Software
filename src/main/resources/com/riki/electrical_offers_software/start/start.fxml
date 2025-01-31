@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
 
+<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.riki.electrical_offers_software.start.StartingController">
+   <children>
+      <AnchorPane prefHeight="80.0" prefWidth="700.0" style="-fx-background-color: #dedede;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="314.0" layoutY="29.0" text="Σύνδεση">
+               <font>
+                  <Font name="Times New Roman Bold Italic" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="5.0" layoutY="321.0" prefHeight="80.0" prefWidth="700.0" style="-fx-background-color: #dedede;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <ProgressBar fx:id="progressBar" layoutY="308.0" prefHeight="12.0" prefWidth="700.0" progress="0.0" />
+      <Label fx:id="messageLabel" layoutX="8.0" layoutY="291.0" prefHeight="17.0" prefWidth="333.0" />
+      <Label fx:id="percentageLabel" layoutX="648.0" layoutY="291.0" prefHeight="17.0" prefWidth="51.0" />
+   </children>
 </AnchorPane>

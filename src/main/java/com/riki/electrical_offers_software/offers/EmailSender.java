@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.Properties;
 
 /**
- * Utility class for sending emails.
+ * Κλάση βοηθητικών λειτουργιών για την αποστολή email.
  */
 public class EmailSender {
     private static final Dotenv dotenv = Dotenv.load();
@@ -17,12 +17,12 @@ public class EmailSender {
     private static final String COMPANY_PASSWORD = dotenv.get("ADMIN_PASS");
 
     /**
-     * Sends an email with an attached PDF file.
+     * Στέλνει email με επισυναπτόμενο αρχείο PDF.
      *
-     * @param recipientEmail The client's email address.
-     * @param subject        The subject of the email.
-     * @param messageContent The message body.
-     * @param pdfFilePath    The path to the PDF file.
+     * @param recipientEmail Το email του πελάτη.
+     * @param subject        Το θέμα του email.
+     * @param messageContent Το περιεχόμενο του μηνύματος.
+     * @param pdfFilePath    Η διαδρομή του αρχείου PDF.
      */
     public static void sendEmail(String recipientEmail, String subject, String messageContent, String pdfFilePath) {
         try {
@@ -39,33 +39,33 @@ public class EmailSender {
                 }
             });
 
-            Message message = prepareMessage(session, recipientEmail, "Αρχειο Προσφοράς", messageContent, pdfFilePath);
+            Message message = prepareMessage(session, recipientEmail, "Αρχείο Προσφοράς", messageContent, pdfFilePath);
             if (message != null) {
                 Transport.send(message);
-                System.out.println("✅ Email sent successfully to: " + recipientEmail);
+                System.out.println("✅ Το email στάλθηκε επιτυχώς στον: " + recipientEmail);
             }
         } catch (Exception e) {
-            System.out.println("❌ Error sending email: " + e.getMessage());
+            System.out.println("❌ Σφάλμα κατά την αποστολή email: " + e.getMessage());
         }
     }
 
     /**
-     * Prepares an email message with an attachment.
+     * Προετοιμάζει ένα email με συνημμένο αρχείο.
      */
     private static Message prepareMessage(Session session, String recipientEmail, String subject, String messageContent, String pdfFilePath)
             throws Exception {
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(COMPANY_EMAIL, "Ηλεκτρικές Προσφορές")); // Greek sender name
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail, "UTF-8"));  // Encode recipient
+        message.setFrom(new InternetAddress(COMPANY_EMAIL, "Ηλεκτρικές Προσφορές")); // Ελληνικό όνομα αποστολέα
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail, "UTF-8"));  // Κωδικοποίηση παραλήπτη
 
-        message.setSubject("Αρχειο Προσφοράς", "UTF-8");  // Ensure UTF-8 subject
+        message.setSubject("Αρχείο Προσφοράς", "UTF-8");  // Εξασφάλιση UTF-8 για το θέμα
         message.setHeader("Content-Type", "text/html; charset=UTF-8");
 
-        // Create text part
+        // Δημιουργία τμήματος κειμένου
         MimeBodyPart textPart = new MimeBodyPart();
-        textPart.setContent("Αγαπητέ πελάτη,<br><br>Στο email αυτό θα βρείτε το αρχείο προσφοράς μας.<br><br>Με εκτίμηση,<br>Σπύρος Ζέλης<br>Κωσταντίνος Μποζιάρης", "text/html; charset=UTF-8");
+        textPart.setContent("Αγαπητέ πελάτη,<br><br>Στο email αυτό θα βρείτε το αρχείο προσφοράς μας.<br><br>Με εκτίμηση,<br>Σπύρος Ζέλης<br>Κωνσταντίνος Μποζιάρης", "text/html; charset=UTF-8");
 
-        // Attach PDF
+        // Επισύναψη PDF
         MimeBodyPart attachmentPart = new MimeBodyPart();
         File pdfFile = new File(pdfFilePath);
         attachmentPart.attachFile(pdfFile);

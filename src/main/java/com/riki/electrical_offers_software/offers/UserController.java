@@ -4,8 +4,7 @@ import com.riki.electrical_offers_software.database.DatabaseConfiguration;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -57,8 +56,11 @@ public class UserController {
                 lastnameField.setText(rs.getString("last_name"));
                 emailField.setText(rs.getString("email"));
                 phoneField.setText(rs.getString("phone_number"));
+            } else {
+                showAlert("Σφάλμα", "Ο χρήστης δεν βρέθηκε.", Alert.AlertType.ERROR);
             }
         } catch (SQLException e) {
+            showAlert("Σφάλμα", "Αποτυχία φόρτωσης δεδομένων χρήστη.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -74,8 +76,9 @@ public class UserController {
             stmt.setString(4, phoneField.getText());
             stmt.setInt(5, userId);
             stmt.executeUpdate();
-            System.out.println("✅ User data updated successfully");
+            showAlert("Επιτυχία", "Τα δεδομένα του χρήστη ενημερώθηκαν με επιτυχία.", Alert.AlertType.INFORMATION);
         } catch (SQLException e) {
+            showAlert("Σφάλμα", "Αποτυχία ενημέρωσης δεδομένων χρήστη.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -86,10 +89,19 @@ public class UserController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Change Password");
+            stage.setTitle("Αλλαγή Κωδικού Πρόσβασης");
             stage.show();
         } catch (IOException e) {
+            showAlert("Σφάλμα", "Αποτυχία φόρτωσης της φόρμας αλλαγής κωδικού.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

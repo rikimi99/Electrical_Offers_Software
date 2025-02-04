@@ -116,7 +116,6 @@ public class NewOfferController {
                 String categoryName = new String(rs.getBytes("category_name"), "UTF-8");
                 materialsList.add(new Material(id, name, categoryName));
             }
-            // Load all materials at start
             materialsTable.setItems(materialsList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,10 +124,9 @@ public class NewOfferController {
 
     private void filterMaterials(String searchText) {
         if (searchText == null || searchText.trim().isEmpty()) {
-            materialsTable.setItems(materialsList); // Reset table if search is empty
+            materialsTable.setItems(materialsList);
             return;
         }
-
         filteredMaterialsList.clear();
         String lowerCaseFilter = searchText.toLowerCase();
 
@@ -137,15 +135,13 @@ public class NewOfferController {
                 filteredMaterialsList.add(material);
             }
         }
-
         materialsTable.setItems(filteredMaterialsList);
     }
 
     private void addSelectedMaterialToOffer() {
         Material selectedMaterial = materialsTable.getSelectionModel().getSelectedItem();
         if (selectedMaterial == null) {
-            showAlert("Selection Error", "Please select a material to add.", Alert.AlertType.WARNING);
-            return;
+            showAlert("Σφάλμα Επιλογής", "Παρακαλώ επιλέξτε ένα υλικό για προσθήκη.", Alert.AlertType.WARNING);            return;
         }
 
         for (Offer offer : offersList) {
@@ -163,8 +159,7 @@ public class NewOfferController {
     private void removeSelectedOffer() {
         Offer selectedOffer = offersTable.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
-            showAlert("Selection Error", "Please select an offer to remove.", Alert.AlertType.WARNING);
-            return;
+            showAlert("Σφάλμα Επιλογής", "Παρακαλώ επιλέξτε μια προσφορά για αφαίρεση.", Alert.AlertType.WARNING);            return;
         }
         offersList.remove(selectedOffer);
     }
@@ -172,38 +167,38 @@ public class NewOfferController {
     private void editSelectedOfferQuantity() {
         Offer selectedOffer = offersTable.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
-            showAlert("Selection Error", "Please select an offer to edit.", Alert.AlertType.WARNING);
-            return;
+            showAlert("Σφάλμα Επιλογής", "Παρακαλώ επιλέξτε μια προσφορά για επεξεργασία.", Alert.AlertType.WARNING);            return;
         }
 
         TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedOffer.getQuantity()));
-        dialog.setTitle("Edit Quantity");
-        dialog.setHeaderText("Edit the quantity of the selected offer");
-        dialog.setContentText("Enter new quantity:");
+        dialog.setTitle("Επεξεργασία Ποσότητας");
+        dialog.setHeaderText("Επεξεργαστείτε την ποσότητα της επιλεγμένης προσφοράς");
+        dialog.setContentText("Εισαγάγετε νέα ποσότητα:");
+
 
         dialog.showAndWait().ifPresent(input -> {
             try {
                 int newQuantity = Integer.parseInt(input);
                 if (newQuantity < 0) {
-                    showAlert("Invalid Input", "Quantity cannot be negative.", Alert.AlertType.WARNING);
+                    showAlert("Μη Έγκυρη Εισαγωγή", "Η ποσότητα δεν μπορεί να είναι αρνητική.", Alert.AlertType.WARNING);
                 } else {
                     selectedOffer.setQuantity(newQuantity);
                     offersTable.refresh();
                 }
             } catch (NumberFormatException e) {
-                showAlert("Invalid Input", "Please enter a valid number.", Alert.AlertType.WARNING);
+                showAlert("Μη Έγκυρη Εισαγωγή", "Παρακαλώ εισαγάγετε έναν έγκυρο αριθμό.", Alert.AlertType.WARNING);
             }
         });
     }
 
     private void generateOfferPDF() {
         if (offersList.isEmpty()) {
-            showAlert("No Offers", "There are no offers to generate a PDF.", Alert.AlertType.WARNING);
+            showAlert("Δεν Υπάρχουν Προσφορές", "Δεν υπάρχουν προσφορές για δημιουργία PDF.", Alert.AlertType.WARNING);
             return;
         }
 
         if (isCustomerInfoMissing()) {
-            showAlert("Missing Information", "Please fill in all customer details before generating the PDF.", Alert.AlertType.WARNING);
+            showAlert("Ελλιπείς Πληροφορίες", "Παρακαλώ συμπληρώστε όλα τα στοιχεία του πελάτη πριν τη δημιουργία του PDF.", Alert.AlertType.WARNING);
             return;
         }
 
@@ -216,7 +211,7 @@ public class NewOfferController {
         }
 
         String filePath = directoryPath + "/" + lastName + "_" + System.currentTimeMillis() + ".pdf";
-        String companyName = "Your Business Name";
+        String companyName = "";
 
         // Convert ObservableList to a regular List
         List<Offer> offerList = new ArrayList<>(offersList);
@@ -238,7 +233,7 @@ public class NewOfferController {
                 formattedPrice + " + ΦΠΑ" // Display price properly with VAT mention
         );
 
-        showAlert("PDF Generated", "Offer PDF has been successfully created!", Alert.AlertType.INFORMATION);
+        showAlert("PDF Δημιουργήθηκε", "Το PDF προσφοράς δημιουργήθηκε με επιτυχία!", Alert.AlertType.INFORMATION);
         openPreviewPage(filePath);
     }
 
@@ -259,7 +254,7 @@ public class NewOfferController {
 
     private void openPreviewPage(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
-            showAlert("Error", "No PDF found for preview.", Alert.AlertType.ERROR);
+            showAlert("Σφάλμα", "Δεν βρέθηκε PDF για προεπισκόπηση.", Alert.AlertType.ERROR);
             return;
         }
 

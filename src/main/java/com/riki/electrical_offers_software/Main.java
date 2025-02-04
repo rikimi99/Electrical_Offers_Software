@@ -14,7 +14,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         DatabaseConfiguration.connect();
-        UserCreation.createAdminUser();
         MaterialInsertDB.insertData();
         launch(args);
     }

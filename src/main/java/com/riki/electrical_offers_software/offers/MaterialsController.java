@@ -94,22 +94,6 @@ public class MaterialsController {
         }
     }
 
-    private void addCategory(String categoryName) {
-        if (categoryName == null || categoryName.trim().isEmpty()) return;
-        try (Connection conn = DriverManager.getConnection(DatabaseConfiguration.getDatabaseUrl());
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO categories (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, categoryName);
-            stmt.executeUpdate();
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    int newCategoryId = rs.getInt(1);
-                    categoriesList.add(new Category(newCategoryId, categoryName));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void openNewMaterialWindow() {
         try {

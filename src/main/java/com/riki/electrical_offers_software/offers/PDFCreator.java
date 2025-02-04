@@ -148,7 +148,7 @@ public class PDFCreator {
     }
     public static void downloadPDF(byte[] pdfData) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save PDF File");
+        fileChooser.setTitle("Αποθήκευση αρχείου PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showSaveDialog(new Stage());
 

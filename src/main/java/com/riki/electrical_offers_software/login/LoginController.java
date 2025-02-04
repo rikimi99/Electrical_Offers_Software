@@ -27,7 +27,7 @@ public class LoginController {
     private Button closeButton;
 
     /**
-     * Event handler for login button
+     * Διαχειριστής συμβάντος για το κουμπί σύνδεσης.
      */
     @FXML
     private void handleLogin(ActionEvent event) {
@@ -38,7 +38,7 @@ public class LoginController {
             return;
         }
 
-        // Check user credentials
+        // Έλεγχος διαπιστευτηρίων χρήστη
         if (authenticateUser(ADMIN_EMAIL, enteredPassword)) {
             showAlert("Επιτυχία", "Σύνδεση επιτυχής! Καλώς ήρθατε!", Alert.AlertType.INFORMATION);
             loadMainScreen();
@@ -48,7 +48,7 @@ public class LoginController {
     }
 
     /**
-     * Event handler for close button
+     * Διαχειριστής συμβάντος για το κουμπί κλεισίματος.
      */
     @FXML
     private void handleClose(ActionEvent event) {
@@ -57,16 +57,16 @@ public class LoginController {
     }
 
     /**
-     * Authenticate the user by checking the hashed password in the database.
-     * @param email Admin email
-     * @param enteredPassword Password entered by the user
-     * @return true if authentication is successful, false otherwise
+     * Πιστοποίηση του χρήστη ελέγχοντας τον αποθηκευμένο κρυπτογραφημένο κωδικό στη βάση δεδομένων.
+     * @param email Email διαχειριστή
+     * @param enteredPassword Κωδικός που εισήγαγε ο χρήστης
+     * @return true αν η πιστοποίηση είναι επιτυχής, false διαφορετικά
      */
     private boolean authenticateUser(String email, String enteredPassword) {
         Connection conn = DatabaseConfiguration.connect();
 
         if (conn == null) {
-            System.out.println("Database connection failed.");
+            System.out.println("Η σύνδεση με τη βάση δεδομένων απέτυχε.");
             return false;
         }
 
@@ -82,36 +82,38 @@ public class LoginController {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error during authentication: " + e.getMessage());
+            System.out.println("Σφάλμα κατά την πιστοποίηση: " + e.getMessage());
         }
         return false;
     }
 
+    /**
+     * Φόρτωση της κύριας οθόνης μετά από επιτυχή σύνδεση.
+     */
     private void loadMainScreen() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/riki/electrical_offers_software/offers/mainPage.fxml"));
             Parent root = fxmlLoader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Electrical Offers Software");
+            stage.setTitle("Λογισμικό Προσφορών Ηλεκτρολογικών Ειδών");
             stage.setResizable(true);
             stage.setMaximized(true);
             stage.setScene(new Scene(root));
-            stage.show(); // Show the new window
+            stage.show(); // Εμφάνιση του νέου παραθύρου
             Stage loginStage = (Stage) passwordField.getScene().getWindow();
             loginStage.close();
 
         } catch (Exception e) {
-            e.printStackTrace(); // Print errors for debugging
+            e.printStackTrace(); // Εκτύπωση σφαλμάτων για αποσφαλμάτωση
         }
     }
 
-
     /**
-     * Show an alert dialog.
-     * @param title Alert title
-     * @param message Alert message
-     * @param alertType Type of alert
+     * Εμφάνιση προειδοποιητικού παραθύρου (alert).
+     * @param title Τίτλος του alert
+     * @param message Μήνυμα του alert
+     * @param alertType Τύπος alert
      */
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);

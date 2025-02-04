@@ -57,7 +57,7 @@ public class AllOffersController {
                 String createdAt = rs.getString("created_at");
 
                 // Create clickable hyperlink for downloading the PDF
-                Hyperlink pdfLink = new Hyperlink("Download PDF");
+                Hyperlink pdfLink = new Hyperlink("Λήψη PDF");
                 pdfLink.setOnAction(event -> downloadPDF(id));
 
                 offersList.add(new OfferPDF(id, lastName, createdAt, pdfLink));
@@ -70,7 +70,7 @@ public class AllOffersController {
     private void openSelectedPDF() {
         OfferPDF selectedOffer = offersHistoryTable.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
-            showAlert("Selection Error", "Please select an offer to open.", Alert.AlertType.WARNING);
+            showAlert("Σφάλμα επιλογής", "Παρακαλώ επιλέξτε μια προσφορά για άνοιγμα.", Alert.AlertType.WARNING);
             return;
         }
 
@@ -120,11 +120,10 @@ public class AllOffersController {
         }
     }
 
-
     private void deleteSelectedOffer() {
         OfferPDF selectedOffer = offersHistoryTable.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
-            showAlert("Selection Error", "Please select an offer to delete.", Alert.AlertType.WARNING);
+            showAlert("Σφάλμα επιλογής", "Παρακαλώ επιλέξτε μια προσφορά για διαγραφή.", Alert.AlertType.WARNING);
             return;
         }
         String query = "DELETE FROM offer_pdfs WHERE id = ?";

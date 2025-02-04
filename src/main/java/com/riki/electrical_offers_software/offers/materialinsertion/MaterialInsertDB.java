@@ -19,7 +19,7 @@ public class MaterialInsertDB {
     public static void insertData() {
         try (Connection connection = DriverManager.getConnection(DatabaseConfiguration.getDatabaseUrl())) {
             if (connection == null) {
-                System.out.println("❌ Failed to establish database connection.");
+                System.out.println("❌ Αποτυχία σύνδεσης με τη βάση δεδομένων.");
                 return;
             }
 
@@ -27,12 +27,19 @@ public class MaterialInsertDB {
 
             insertMaterials(connection, categoryMap);
 
-            System.out.println("✅ Data inserted successfully!");
+            System.out.println("✅ Τα δεδομένα εισήχθησαν με επιτυχία!");
         } catch (Exception e) {
-            System.out.println("❌ Error inserting data: " + e.getMessage());
+            System.out.println("❌ Σφάλμα κατά την εισαγωγή δεδομένων: " + e.getMessage());
         }
     }
 
+    /**
+     * Εισάγει κατηγορίες από το αρχείο στη βάση δεδομένων.
+     * @param connection Η σύνδεση με τη βάση δεδομένων
+     * @return Χάρτης με τα αναγνωριστικά των κατηγοριών
+     * @throws IOException Αν υπάρχει πρόβλημα με το αρχείο
+     * @throws SQLException Αν υπάρχει σφάλμα SQL
+     */
     private static Map<Integer, Integer> insertCategories(Connection connection) throws IOException, SQLException {
         Map<Integer, Integer> categoryMap = new HashMap<>();
         String query = "INSERT INTO categories (id, name) VALUES (?, ?)";
@@ -57,6 +64,13 @@ public class MaterialInsertDB {
         return categoryMap;
     }
 
+    /**
+     * Εισάγει υλικά από το αρχείο στη βάση δεδομένων.
+     * @param connection Η σύνδεση με τη βάση δεδομένων
+     * @param categoryMap Χάρτης με τις κατηγορίες για έλεγχο εγκυρότητας
+     * @throws IOException Αν υπάρχει πρόβλημα με το αρχείο
+     * @throws SQLException Αν υπάρχει σφάλμα SQL
+     */
     private static void insertMaterials(Connection connection, Map<Integer, Integer> categoryMap) throws IOException, SQLException {
         String query = "INSERT INTO materials (id, name, category_id) VALUES (?, ?, ?)";
 

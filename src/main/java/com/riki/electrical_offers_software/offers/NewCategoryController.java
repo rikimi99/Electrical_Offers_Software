@@ -28,24 +28,24 @@ public class NewCategoryController {
         String categoryName = categoryNameField.getText().trim();
 
         if (categoryName.isEmpty()) {
-            showAlert("Invalid Input", "Please enter a category name.", Alert.AlertType.WARNING);
+            showAlert("Μη έγκυρη εισαγωγή", "Παρακαλώ εισάγετε ένα όνομα κατηγορίας.", Alert.AlertType.WARNING);
             return;
         }
 
         try (Connection conn = DriverManager.getConnection(DatabaseConfiguration.getDatabaseUrl())) {
             if (categoryExists(conn, categoryName)) {
-                showAlert("Duplicate Category", "Category already exists! Try a different name.", Alert.AlertType.WARNING);
+                showAlert("Διπλότυπη κατηγορία", "Η κατηγορία υπάρχει ήδη! Δοκιμάστε ένα διαφορετικό όνομα.", Alert.AlertType.WARNING);
                 return;
             }
 
             try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO categories (name) VALUES (?)")) {
                 stmt.setString(1, categoryName);
                 stmt.executeUpdate();
-                showAlert("Success", "Category added successfully!", Alert.AlertType.INFORMATION);
+                showAlert("Επιτυχία", "Η κατηγορία προστέθηκε με επιτυχία!", Alert.AlertType.INFORMATION);
                 closeWindow();
             }
         } catch (SQLException e) {
-            showAlert("Database Error", "Failed to add category.", Alert.AlertType.ERROR);
+            showAlert("Σφάλμα βάσης δεδομένων", "Αποτυχία προσθήκης κατηγορίας.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }

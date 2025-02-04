@@ -41,21 +41,20 @@ public class ChangePasswordController {
         String confirmPassword = confirmPasswordField.getText();
 
         if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Error", "All fields are required.");
+            showAlert(Alert.AlertType.ERROR, "Σφάλμα", "Όλα τα πεδία είναι υποχρεωτικά.");
             return;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Passwords do not match.");
+            showAlert(Alert.AlertType.ERROR, "Σφάλμα", "Οι κωδικοί πρόσβασης δεν ταιριάζουν.");
             return;
         }
 
         try (Connection conn = DriverManager.getConnection(DatabaseConfiguration.getDatabaseUrl())) {
             if (conn == null || conn.isClosed()) {
-                showAlert(Alert.AlertType.ERROR, "Error", "Database connection failed.");
+                showAlert(Alert.AlertType.ERROR, "Σφάλμα", "Η σύνδεση με τη βάση δεδομένων απέτυχε.");
                 return;
             }
-
 
             String query = "SELECT password FROM users WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -64,11 +63,11 @@ public class ChangePasswordController {
                 if (rs.next()) {
                     String storedPassword = rs.getString("password");
                     if (!BCrypt.checkpw(currentPassword, storedPassword)) {
-                        showAlert(Alert.AlertType.ERROR, "Error", "Current password is incorrect.");
+                        showAlert(Alert.AlertType.ERROR, "Σφάλμα", "Ο τρέχων κωδικός πρόσβασης είναι λανθασμένος.");
                         return;
                     }
                 } else {
-                    showAlert(Alert.AlertType.ERROR, "Error", "User not found.");
+                    showAlert(Alert.AlertType.ERROR, "Σφάλμα", "Ο χρήστης δεν βρέθηκε.");
                     return;
                 }
             }
@@ -79,11 +78,11 @@ public class ChangePasswordController {
                 stmt.setString(1, hashedPassword);
                 stmt.setInt(2, userId);
                 stmt.executeUpdate();
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Password changed successfully.");
+                showAlert(Alert.AlertType.INFORMATION, "Επιτυχία", "Ο κωδικός πρόσβασης άλλαξε με επιτυχία.");
                 ((Stage) changePasswordButton.getScene().getWindow()).close();
             }
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Database error: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Σφάλμα", "Σφάλμα βάσης δεδομένων: " + e.getMessage());
         }
     }
 

@@ -37,32 +37,32 @@ public class NewMaterialController {
 
         // Get database URL from DatabaseConfiguration
         String dbPath = DatabaseConfiguration.getDatabaseUrl();
-        System.out.println("Using database: " + dbPath);
+        System.out.println("Χρήση βάσης δεδομένων: " + dbPath);
 
         try (Connection conn = DriverManager.getConnection(dbPath);
              PreparedStatement stmt = conn.prepareStatement("SELECT name FROM categories");
              ResultSet rs = stmt.executeQuery()) {
 
-            System.out.println("Loading categories...");
+            System.out.println("Φόρτωση κατηγοριών...");
             boolean found = false;
 
             while (rs.next()) {
                 String categoryName = rs.getString("name");
-                System.out.println("Category found: " + categoryName);
+                System.out.println("Βρέθηκε κατηγορία: " + categoryName);
                 categoriesList.add(categoryName);
                 found = true;
             }
 
             if (!found) {
-                System.out.println("No categories found in the database!");
-                showAlert("No Categories", "No categories found! Add categories first.", Alert.AlertType.WARNING);
+                System.out.println("Δεν βρέθηκαν κατηγορίες στη βάση δεδομένων!");
+                showAlert("Δεν Υπάρχουν Κατηγορίες", "Δεν βρέθηκαν κατηγορίες! Προσθέστε πρώτα κατηγορίες.", Alert.AlertType.WARNING);
             } else {
                 categoryChoiceBox.setItems(categoriesList);
                 categoryChoiceBox.getSelectionModel().selectFirst(); // Default to first category
             }
 
         } catch (SQLException e) {
-            showAlert("Database Error", "Failed to load categories.", Alert.AlertType.ERROR);
+            showAlert("Σφάλμα Βάσης Δεδομένων", "Αποτυχία φόρτωσης κατηγοριών.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
@@ -75,19 +75,19 @@ public class NewMaterialController {
         String category = categoryChoiceBox.getValue();
 
         if (name.isEmpty() || category == null) {
-            showAlert("Invalid Input", "Please enter a material name and select a category.", Alert.AlertType.WARNING);
+            showAlert("Μη Έγκυρη Εισαγωγή", "Παρακαλώ εισαγάγετε ένα όνομα υλικού και επιλέξτε μια κατηγορία.", Alert.AlertType.WARNING);
             return;
         }
 
         try (Connection conn = DriverManager.getConnection(DatabaseConfiguration.getDatabaseUrl())) {
             if (materialExists(conn, name)) {
-                showAlert("Duplicate Material", "Material already exists! Try a different name.", Alert.AlertType.WARNING);
+                showAlert("Διπλότυπο Υλικό", "Το υλικό υπάρχει ήδη! Δοκιμάστε διαφορετικό όνομα.", Alert.AlertType.WARNING);
                 return;
             }
 
             int categoryId = getCategoryId(conn, category);
             if (categoryId == -1) {
-                showAlert("Error", "Selected category is invalid.", Alert.AlertType.ERROR);
+                showAlert("Σφάλμα", "Η επιλεγμένη κατηγορία δεν είναι έγκυρη.", Alert.AlertType.ERROR);
                 return;
             }
 
@@ -95,11 +95,11 @@ public class NewMaterialController {
                 stmt.setString(1, name);
                 stmt.setInt(2, categoryId);
                 stmt.executeUpdate();
-                showAlert("Success", "Material added successfully!", Alert.AlertType.INFORMATION);
+                showAlert("Επιτυχία", "Το υλικό προστέθηκε με επιτυχία!", Alert.AlertType.INFORMATION);
                 closeWindow();
             }
         } catch (SQLException e) {
-            showAlert("Database Error", "Failed to add material.", Alert.AlertType.ERROR);
+            showAlert("Σφάλμα Βάσης Δεδομένων", "Αποτυχία προσθήκης υλικού.", Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }

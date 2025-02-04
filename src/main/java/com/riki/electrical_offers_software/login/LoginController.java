@@ -83,8 +83,6 @@ public class LoginController {
             }
         } catch (SQLException e) {
             System.out.println("Error during authentication: " + e.getMessage());
-        } finally {
-            DatabaseConfiguration.closeConnection();
         }
         return false;
     }

@@ -52,8 +52,7 @@ public class UserCreation {
             }
         } catch (SQLException e) {
             System.out.println("Error while creating admin user: " + e.getMessage());
-        } finally {
-            DatabaseConfiguration.closeConnection();
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.riki.electrical_offers_software;
 
 import com.riki.electrical_offers_software.database.DatabaseConfiguration;
+import com.riki.electrical_offers_software.offers.materialinsertion.MaterialInsertDB;
 import com.riki.electrical_offers_software.users.UserCreation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         DatabaseConfiguration.connect();
         UserCreation.createAdminUser();
+        MaterialInsertDB.insertData();
         launch(args);
     }
 

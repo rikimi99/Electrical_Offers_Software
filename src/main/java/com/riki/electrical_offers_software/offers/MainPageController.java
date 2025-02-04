@@ -8,13 +8,17 @@ import java.io.IOException;
 public class MainPageController {
 
     @FXML
-    private AnchorPane contentPage; 
-    
+    private AnchorPane contentPage;
+
     private void loadPage(String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             AnchorPane pane = loader.load();
-            contentPage.getChildren().setAll(pane); 
+            AnchorPane.setTopAnchor(pane, 0.0);
+            AnchorPane.setBottomAnchor(pane, 0.0);
+            AnchorPane.setLeftAnchor(pane, 0.0);
+            AnchorPane.setRightAnchor(pane, 0.0);
+            contentPage.getChildren().setAll(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }

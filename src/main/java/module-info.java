@@ -1,9 +1,7 @@
 module com.riki.electrical_offers_software {
-    requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
 
-    requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
     requires org.kordamp.bootstrapfx.core;
@@ -12,6 +10,10 @@ module com.riki.electrical_offers_software {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires jbcrypt;
+    requires itextpdf;
+    requires com.dlsc.pdfviewfx;
+    requires io.github.cdimascio.dotenv.java;
+    requires java.mail;
 
     opens com.riki.electrical_offers_software to javafx.fxml;
     exports com.riki.electrical_offers_software;

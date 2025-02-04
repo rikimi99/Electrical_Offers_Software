@@ -29,9 +29,8 @@ public class StartingController {
 
     @FXML
     public void initialize() {
-        // Timeline to update progress every 50ms (smooth transition)
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(50), event -> updateProgress()));
-        timeline.setCycleCount(100); // Runs for 100 updates (1% each)
+        timeline.setCycleCount(100);
         timeline.play();
     }
 

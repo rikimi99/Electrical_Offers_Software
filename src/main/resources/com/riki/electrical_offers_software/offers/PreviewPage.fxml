@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import com.dlsc.pdfviewfx.PDFView?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.riki.electrical_offers_software.offers.PreviewPageController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <PDFView fx:id="pdfViewer" layoutX="10.0" layoutY="10.0" prefWidth="580.0" prefHeight="320.0"/>
+
+        <HBox layoutX="10.0" layoutY="350.0" spacing="20">
+            <Button fx:id="sendEmailButton" text="Send Email" prefWidth="120.0"/>
+            <Button fx:id="closeButton" text="Close" prefWidth="120.0"/>
+        </HBox>
+    </children>
+
+</AnchorPane>
+        <?import com.dlsc.pdfviewfx.PDFView?>
+

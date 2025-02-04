@@ -38,7 +38,6 @@ public class LoginController {
             return;
         }
 
-        // Έλεγχος διαπιστευτηρίων χρήστη
         if (authenticateUser(ADMIN_EMAIL, enteredPassword)) {
             showAlert("Επιτυχία", "Σύνδεση επιτυχής! Καλώς ήρθατε!", Alert.AlertType.INFORMATION);
             loadMainScreen();
@@ -100,12 +99,12 @@ public class LoginController {
             stage.setResizable(true);
             stage.setMaximized(true);
             stage.setScene(new Scene(root));
-            stage.show(); // Εμφάνιση του νέου παραθύρου
+            stage.show(); 
             Stage loginStage = (Stage) passwordField.getScene().getWindow();
             loginStage.close();
 
         } catch (Exception e) {
-            e.printStackTrace(); // Εκτύπωση σφαλμάτων για αποσφαλμάτωση
+            e.printStackTrace(); 
         }
     }
 

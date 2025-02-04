@@ -19,8 +19,6 @@ module com.riki.electrical_offers_software {
     exports com.riki.electrical_offers_software;
     exports com.riki.electrical_offers_software.database;
     opens com.riki.electrical_offers_software.database to javafx.fxml;
-    exports com.riki.electrical_offers_software.users;
-    opens com.riki.electrical_offers_software.users to javafx.fxml;
     exports com.riki.electrical_offers_software.login;
     opens com.riki.electrical_offers_software.login to javafx.fxml;
     exports com.riki.electrical_offers_software.start;

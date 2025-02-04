@@ -12,6 +12,10 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.*;
 
+/**
+ * The AllOffersController class manages the user interface for viewing, opening,
+ * downloading, and deleting offer PDFs stored in the database.
+ */
 public class AllOffersController {
 
     @FXML
@@ -31,6 +35,9 @@ public class AllOffersController {
 
     private final ObservableList<OfferPDF> offersList = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the table view by setting up column mappings and loading offer data.
+     */
     @FXML
     public void initialize() {
         columnOfferId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -45,6 +52,9 @@ public class AllOffersController {
         deleteButton.setOnAction(event -> deleteSelectedOffer());
     }
 
+    /**
+     * Loads all offers from the database and populates the table.
+     */
     private void loadOffers() {
         offersList.clear();
         String query = "SELECT id, last_name, created_at FROM offer_pdfs";
@@ -56,7 +66,6 @@ public class AllOffersController {
                 String lastName = rs.getString("last_name");
                 String createdAt = rs.getString("created_at");
 
-                // Create clickable hyperlink for downloading the PDF
                 Hyperlink pdfLink = new Hyperlink("Λήψη PDF");
                 pdfLink.setOnAction(event -> downloadPDF(id));
 
@@ -67,6 +76,9 @@ public class AllOffersController {
         }
     }
 
+    /**
+     * Opens the selected offer PDF from the database.
+     */
     private void openSelectedPDF() {
         OfferPDF selectedOffer = offersHistoryTable.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
@@ -80,14 +92,12 @@ public class AllOffersController {
             stmt.setInt(1, selectedOffer.getId());
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    // Create a temporary file for opening
                     File tempFile = File.createTempFile("offer_", ".pdf");
                     try (InputStream is = rs.getBinaryStream("pdf");
                          FileOutputStream fos = new FileOutputStream(tempFile)) {
                         Files.copy(is, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     }
 
-                    // Open the file based on the OS
                     if (System.getProperty("os.name").toLowerCase().contains("win")) {
                         new ProcessBuilder("cmd", "/c", tempFile.getAbsolutePath()).start();
                     } else if (System.getProperty("os.name").toLowerCase().contains("mac")) {
@@ -102,6 +112,9 @@ public class AllOffersController {
         }
     }
 
+    /**
+     * Downloads the selected offer PDF from the database.
+     */
     private void downloadPDF(int offerId) {
         String query = "SELECT pdf FROM offer_pdfs WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DatabaseConfiguration.getDatabaseUrl());
@@ -120,6 +133,9 @@ public class AllOffersController {
         }
     }
 
+    /**
+     * Deletes the selected offer from the database.
+     */
     private void deleteSelectedOffer() {
         OfferPDF selectedOffer = offersHistoryTable.getSelectionModel().getSelectedItem();
         if (selectedOffer == null) {
@@ -137,6 +153,9 @@ public class AllOffersController {
         }
     }
 
+    /**
+     * Displays an alert message.
+     */
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

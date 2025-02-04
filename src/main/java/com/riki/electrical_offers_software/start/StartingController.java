@@ -38,7 +38,7 @@ public class StartingController {
      * Updates the progress bar, percentage label, and message label smoothly.
      */
     private void updateProgress() {
-        progress += 0.01; // Increment by 1%
+        progress += 0.01; 
         progressBar.setProgress(progress);
         percentageLabel.setText((int) (progress * 100) + "%");
         updateMessageLabel((int) (progress * 100));
